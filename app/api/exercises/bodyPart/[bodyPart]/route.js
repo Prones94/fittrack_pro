@@ -1,5 +1,6 @@
 export async function GET(request) {
-  const bodyPart = request.nextUrl.pathname.split("/").pop();
+  const url = new URL(request.url)
+  const bodyPart = url.pathname.split("/").pop();
 
   try {
     const res = await fetch(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, {
