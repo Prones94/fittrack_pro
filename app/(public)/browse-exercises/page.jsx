@@ -1,8 +1,10 @@
 "use client"
 import React, { useState } from 'react';
-import { useBodyPartList, useTargetList, useEquipmentList } from "@/hooks";
-import { Skeleton } from "@/components/ui/skeleton";
-import FilterPill from '@/app/components/FilterPill'
+import { useBodyPartList } from '../../../hooks/useBodyPartList';
+import { useTargetList } from '../../../hooks/useTargetList';
+import { useEquipmentList } from '../../../hooks/useEquipmentList';
+import { Skeleton } from "../../../components/ui/skeleton";
+import FilterPill from '../../components/FilterPill'
 
 export default function BrowseExercisesPage() {
   const [selectedBodyPart, setSelectedBodyPart] = useState(null)
@@ -30,9 +32,9 @@ export default function BrowseExercisesPage() {
   if (bodyPartsLoading || targetsLoading || equipmentLoading) {
     return (
       <div className="p-6 space-y-4">
-        <Skeleton className="h-6 w-48" />
-        <Skeleton className="h-6 w-48" />
-        <Skeleton className="h-6 w-48" />
+        <Skeleton data-testid="skeleton-pill" className="h-6 w-48" />
+        <Skeleton data-testid="skeleton-pill" className="h-6 w-48" />
+        <Skeleton data-testid="skeleton-pill" className="h-6 w-48" />
       </div>
     )
   }
@@ -46,33 +48,60 @@ export default function BrowseExercisesPage() {
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div>
-        <h2 className="text-lg font-semibold mb-2">Body Parts</h2>
+    <div className="max-w-6xl mx-auto px-4 py-8 space-y-10">
+      <section>
+        <h2 className="text-xl font-bold mb-4">Filter by Body Part</h2>
         <div className="flex flex-wrap gap-2">
-          {bodyParts?.map(part => (
-            <FilterPill key={part} label={part} />
-          ))}
+          {bodyPartsLoading
+            ? Array.from({ length: 10 }).map((_, i) => (
+                <Skeleton key={i} data-testid="skeleton-pill" className="h-8 w-20 rounded-full" />
+              ))
+            : bodyParts?.map((item) => (
+                <FilterPill
+                  key={item}
+                  label={item}
+                  selected={selectedBodyPart === item}
+                  onClick={() => setSelectedBodyPart(item)}
+                />
+              ))}
         </div>
-      </div>
+      </section>
 
-      <div>
-        <h2 className="text-lg font-semibold mb-2">Targets</h2>
+      <section>
+        <h2 className="text-xl font-bold mb-4">Filter by Target</h2>
         <div className="flex flex-wrap gap-2">
-          {targets?.map(target => (
-            <FilterPill key={target} label={target} />
-          ))}
+          {targetsLoading
+            ? Array.from({ length: 10 }).map((_, i) => (
+                <Skeleton key={i} data-testid="skeleton-pill" className="h-8 w-24 rounded-full" />
+              ))
+            : targets?.map((item) => (
+                <FilterPill
+                  key={item}
+                  label={item}
+                  selected={selectedTarget === item}
+                  onClick={() => setSelectedTarget(item)}
+                />
+              ))}
         </div>
-      </div>
+      </section>
 
-      <div>
-        <h2 className="text-lg font-semibold mb-2">Equipment</h2>
+      <section>
+        <h2 className="text-xl font-bold mb-4">Filter by Equipment</h2>
         <div className="flex flex-wrap gap-2">
-          {equipment?.map(item => (
-            <FilterPill key={item} label={item} />
-          ))}
+          {equipmentLoading
+            ? Array.from({ length: 10 }).map((_, i) => (
+                <Skeleton key={i} data-testid="skeleton-pill" className="h-8 w-28 rounded-full" />
+              ))
+            : equipment?.map((item) => (
+                <FilterPill
+                  key={item}
+                  label={item}
+                  selected={selectedEquipment === item}
+                  onClick={() => setSelectedEquipment(item)}
+                />
+              ))}
         </div>
-      </div>
+      </section>
     </div>
   )
 }
