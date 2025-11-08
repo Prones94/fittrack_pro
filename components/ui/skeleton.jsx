@@ -1,5 +1,5 @@
 import React from 'react';
-import { combineClasses } from "@/lib/utils"
+import { combineClasses } from "../../app/lib/utils"
 
 function Skeleton({
   className,

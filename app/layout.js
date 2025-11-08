@@ -3,7 +3,7 @@ import "./globals.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from "react"
 
-export const metadata = {
+const metadata = {
   title: "Exercise App",
   description: "Browse and build workouts using ExerciseDB API",
 };

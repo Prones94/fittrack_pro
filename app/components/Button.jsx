@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { combineClasses } from "@/lib/utils";
+import { combineClasses } from "../lib/utils";
 export const Button = React.forwardRef(
   ({ className, variant = "primary", asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";

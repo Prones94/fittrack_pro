@@ -4,19 +4,26 @@ import classNames from "classnames"
 
 export default function FilterPill({ label, selected, onClick }) {
   const pillClasses = classNames(
-    'px-3 py-1 rounded-full text-sm cursor-pointer transition-colors duration-200',
-        {
-          'bg-primary text-primary-foreground': selected,
-          'bg-muted hover:bg-muted/80 dark:bg-gray-800 dark:hover:bg-gray-700': !selected
-        }
+    "inline-flex items-center whitespace-nowrap",
+    "px-3 py-1 rounded-full text-sm",
+    "cursor-pointer transition-colors duration-200 outline-none",
+    "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary",
+    selected
+    ? "bg-primary text-primary-foreground"
+    : "bg-muted hover:bg-muted/80 dark:bg-gray-800 dark:hover:bg-gray-700",
+    className
   )
   return (
-    <span
+    <button
+      type="button"
       onClick={onClick}
+      aria-pressed={selected}
       data-testid="filter-pill"
+      data-selected={selected ? "true" : "false"}
       className={pillClasses}
+      {...props}
     >
       {label}
-    </span>
+    </button>
   )
 }
