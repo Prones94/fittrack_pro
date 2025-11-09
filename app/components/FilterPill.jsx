@@ -2,7 +2,7 @@
 import React from "react"
 import classNames from "classnames"
 
-export default function FilterPill({ label, selected, onClick }) {
+export default function FilterPill({ label, selected,className, onClick, ...props }) {
   const pillClasses = classNames(
     "inline-flex items-center whitespace-nowrap",
     "px-3 py-1 rounded-full text-sm",

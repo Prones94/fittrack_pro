@@ -1,123 +1,93 @@
-/* Import only what you actually use — tw-animate-css if needed */
-@import "tw-animate-css";
+/* ===== Tailwind (CSS-first) ===== */
+@import "tailwindcss";
 
-/* Optional: Only if your build or shadcn/ui uses this */
-@custom-variant dark (&:is(.dark *));
+/* Optional animation lib — remove if unused */
+/* @import "tw-animate-css"; */
 
-/* Base color palette mappings */
+
+/* ===== Design Tokens (Palette) =====
+   Gunmetal:      #2D3142
+   Paynes Gray:   #4F5D75
+   Silver:        #BFC0C0
+   White:         #FFFFFF
+   Coral:         #EF8354
+*/
 :root {
-  --radius: 0.625rem;
+  /* Semantic tokens */
+  --background: #2D3142;          /* Gunmetal */
+  --foreground: #FFFFFF;          /* White */
+  --muted: #4F5D75;               /* Paynes Gray (used as subtle bg) */
+  --muted-foreground: #BFC0C0;    /* Silver (subtle text) */
+  --border: #4F5D75;              /* Paynes Gray */
+  --primary: #EF8354;             /* Coral */
+  --primary-foreground: #1a1a1a;  /* Legible text on Coral */
 
-  --background: #ffffff;         /* White */
-  --foreground: #2d3142;         /* Gunmetal */
-
-  --card: #ffffff;
-  --card-foreground: #2d3142;
-
-  --popover: #ffffff;
-  --popover-foreground: #2d3142;
-
-  --primary: #ef8354;            /* Coral */
-  --primary-foreground: #ffffff;
-
-  --secondary: #bfc0c0;          /* Silver */
-  --secondary-foreground: #2d3142;
-
-  --muted: #bfc0c0;              /* Silver */
-  --muted-foreground: #4f5d75;   /* Paynes Gray */
-
-  --accent: #bfc0c0;
-  --accent-foreground: #2d3142;
-
-  --destructive: #ff4444;
-
-  --border: #bfc0c0;             /* Silver for borders */
-  --input: #bfc0c0;
-  --ring: #ef8354;               /* Coral accent */
-
-  /* Sidebar-specific (optional) */
-  --sidebar: #f8f9fa;
-  --sidebar-foreground: #2d3142;
-  --sidebar-border: #e0e0e0;
-
-  /* Chart colors — optional, you can remove if not needed */
-  --chart-1: #ef8354;
-  --chart-2: #4f5d75;
-  --chart-3: #bfc0c0;
-  --chart-4: #2d3142;
-  --chart-5: #ffffff;
+  /* System hint for form controls, scrollbars, etc. */
+  color-scheme: dark;
 }
 
+/* If you ever enable a light theme, you can flip tokens here. */
 .dark {
-  --background: #2d3142;         /* Gunmetal */
-  --foreground: #ffffff;
+  /* Keep the same dark palette; provided for future theme switching */
+  --background: #2D3142;
+  --foreground: #FFFFFF;
+  --muted: #4F5D75;
+  --muted-foreground: #BFC0C0;
+  --border: #4F5D75;
+  --primary: #EF8354;
+  --primary-foreground: #1a1a1a;
 
-  --card: #4f5d75;               /* Paynes Gray */
-  --card-foreground: #ffffff;
-
-  --popover: #4f5d75;
-  --popover-foreground: #ffffff;
-
-  --primary: #ef8354;            /* Coral */
-  --primary-foreground: #ffffff;
-
-  --secondary: #bfc0c0;          /* Silver */
-  --secondary-foreground: #2d3142;
-
-  --muted: #4f5d75;
-  --muted-foreground: #bfc0c0;
-
-  --accent: #4f5d75;
-  --accent-foreground: #ffffff;
-
-  --destructive: #ff6666;
-
-  --border: #4f5d75;
-  --input: #4f5d75;
-  --ring: #ef8354;
-
-  --sidebar: #2d3142;
-  --sidebar-foreground: #ffffff;
-  --sidebar-border: #4f5d75;
-
-  --chart-1: #ef8354;
-  --chart-2: #bfc0c0;
-  --chart-3: #ffffff;
-  --chart-4: #4f5d75;
-  --chart-5: #2d3142;
+  color-scheme: dark;
 }
 
-/* Inline theme mapping for shadcn/ui or other design tokens */
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-}
 
-/* Base layer styling with Tailwind @apply — v4 safe */
+/* ===== Base Layer ===== */
 @layer base {
+  /* Keep borders consistent; avoid global outline rules to prevent surprises */
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
+
+  html, body {
+    height: 100%;
+  }
+
   body {
-    @apply bg-background text-foreground font-sans;
+    /* Stable, SSR-friendly defaults applied here (so <body> in layout can be plain) */
+    @apply bg-background text-foreground font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+}
+
+
+/* ===== Utility Mappings for Semantic Tokens =====
+   These create stable classes like bg-background, text-primary, etc.
+*/
+@layer utilities {
+  .bg-background { background-color: var(--background); }
+  .text-foreground { color: var(--foreground); }
+
+  .bg-muted { background-color: var(--muted); }
+  .text-muted-foreground { color: var(--muted-foreground); }
+
+  .text-primary { color: var(--primary); }
+  .bg-primary { background-color: var(--primary); }
+  .text-primary-foreground { color: var(--primary-foreground); }
+
+  .border-border { border-color: var(--border); }
+}
+
+
+/* ===== Component Tweaks (optional) ===== */
+/* Buttons or pills can rely on token utilities above */
+.btn {
+  @apply inline-flex items-center justify-center rounded-md px-4 py-2
+         bg-primary text-primary-foreground hover:bg-primary/90
+         transition-colors;
+}
+
+/* Skeleton demo class is used by your Skeleton component */
+.skeleton {
+  @apply bg-muted animate-pulse rounded-md;
 }

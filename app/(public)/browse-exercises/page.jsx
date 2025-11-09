@@ -134,7 +134,7 @@ export default function BrowseExercisesPage() {
             </button>
           </div>
         )}
-        {!loadingExercises && !errorExercises && (exercses?.length ?? 0) > 0 && (
+        {!loadingExercises && !errorExercises && (exercises?.length ?? 0) > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {exercises.map((ex) => (
               <ExerciseCard key={ex.id} exercise={ex} />
